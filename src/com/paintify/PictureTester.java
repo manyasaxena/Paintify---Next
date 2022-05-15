@@ -1,3 +1,4 @@
+package com.paintify;
 
 
 import java.awt.Color;
@@ -52,7 +53,7 @@ public class PictureTester
   }
 
   public static void testFill() {
-    Picture swan = Picture.getInstance("avacado.jpeg");
+    Picture swan = Picture.getInstance("./src/avacado.jpeg");
 		swan.explore();
     // Pixel p = new Pixel(swan, swan.getX(), swan.getY());
     // Color c = p.getColor();

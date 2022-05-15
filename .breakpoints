@@ -1,0 +1,28 @@
+{
+  "files": {
+    "src/Picture.java": [
+      {
+        "id": "c1fdbf52-438f-43c1-8994-5614d432450f",
+        "line": 363,
+        "version": 1422,
+        "index": 9248
+      }
+    ],
+    "src/PictureExplorer.java": [
+      {
+        "id": "6cf39041-2e15-4496-9abb-816fb8850040",
+        "line": 648,
+        "version": 2698,
+        "index": 20743
+      }
+    ],
+    "src/PictureFrame.java": [
+      {
+        "id": "1deb16f5-8486-44be-b1eb-30c81c8e4f26",
+        "line": 105,
+        "version": 3,
+        "index": 2461
+      }
+    ]
+  }
+}

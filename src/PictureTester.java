@@ -1,9 +1,13 @@
+
+
 import java.awt.Color;
 import java.io.File;
 import java.awt.*;
 import java.awt.Graphics;
 import javax.swing.*;
 import java.awt.image.*;
+
+import com.paintify.picture.*;
 
 /**
  * This class contains class (static) methods
@@ -36,6 +40,7 @@ public class PictureTester
     // testFillSection();
     // original();
     testFill();
+
   
 	}
 

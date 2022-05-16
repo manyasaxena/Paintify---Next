@@ -2,8 +2,13 @@ package com.paintify.app;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 
 import com.paintify.ImageDisplay;
+import com.paintify.editor.BrushController;
+import com.paintify.editor.DrawingController;
+import com.paintify.editor.EraserController;
+import com.paintify.editor.RectController;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,23 +27,19 @@ public class MainWindow {
     private JFrame mainFrame;
     public static boolean RIGHT_TO_LEFT = false;
 
+    private MainWindow(){
+
+    }
+
     private static JButton createImageButton(String iconFilePath){
         JButton button;
         ImageIcon bIcon;
 
         bIcon=new ImageIcon(MainWindow.class.getResource(iconFilePath));
         button = new JButton(bIcon);
-        button.setBackground(Color.WHITE);
-        button.setOpaque(false);
-        button.setMargin(new Insets(1,1,1,1));
-        button.addActionListener((ActionListener) new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
+        // button.setBackground(Color.WHITE);
+        // button.setOpaque(false);
+        // button.setMargin(new Insets(1,1,1,1));
         return button;
     }
 
@@ -116,26 +118,22 @@ public class MainWindow {
         }
 
         JPanel drawingModes=new JPanel();
+        //  Add Logo
             drawingModes.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
+
+        // Add a bunch of Drawing Operations you can perform
             drawingModes.add(createImageButton("/images/buttons/icons8-fill-color-50.png"));
             drawingModes.add(createImageButton("/images/buttons/icons8-illustrator-50.png"));
 
+        // Adding the Top Drawing Modes to the Main Frame Panel 
         pane.add(drawingModes, BorderLayout.PAGE_START);
          
         //Make the center component big, since that's the
         //typical usage of BorderLayout.
 
-/*        JButton button;
-
-        button = new JButton("Button 2 (CENTER)");
-        button.setPreferredSize(new Dimension(1024, 768));
-        pane.add(button, BorderLayout.CENTER); */
-
-        ////////////////
+        // Adding the actual Editor
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setPreferredSize(new Dimension(1024, 768));
-        scrollPane.setBackground(Color.BLACK);
-        scrollPane.setOpaque(false);
 
         BufferedImage bi=null;
         try {
@@ -153,17 +151,27 @@ public class MainWindow {
 
         pane.add(scrollPane, BorderLayout.CENTER);
 
+        // THIS IS HARD WIRED, and needs to be Configurable based on Icon that was clicked
+        // Also, need to create the FLOOD Fill Controller, and use the Code written by JIA
+        DrawingController bController = new BrushController(bi,  imageDisplay);
+
+        imageDisplay.addMouseMotionListener(bController);
+        
+        // No 2
 
         ////////////////
          
-        JButton button = new JButton("Button 3 (LINE_START)");
+        JButton button = new JButton("Tools");
         pane.add(button, BorderLayout.LINE_START);
+        // No 3
          
-        button = new JButton("Long-Named Button 4 (PAGE_END)");
+        button = new JButton("Footer");
         pane.add(button, BorderLayout.PAGE_END);
+        // No 4
          
-        button = new JButton("5 (LINE_END)");
+        button = new JButton("Canvas Tools");
         pane.add(button, BorderLayout.LINE_END);
+        // No 5
     }
      
     /**
@@ -190,7 +198,7 @@ public class MainWindow {
 
     }
 
-    private static MainWindow getInstance(){
+    public static MainWindow getInstance(){
         if (instance==null)
         {
             instance=new MainWindow();
@@ -199,7 +207,6 @@ public class MainWindow {
     }
      
     public static void main(String[] args) {
-      System.out.println("Test");
         /* Use an appropriate Look and Feel */
         try {
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -221,6 +228,7 @@ public class MainWindow {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 MainWindow.getInstance().createAndShowGUI();
+                // This is where everything gets Started
             }
         });
     }

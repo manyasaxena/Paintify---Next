@@ -1,111 +1,54 @@
 package com.paintify.app;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
+import java.awt.FlowLayout;
 
-import com.paintify.ImageDisplay;
 import com.paintify.editor.BrushController;
-import com.paintify.editor.DrawingController;
+import com.paintify.editor.DrawingConfig;
 import com.paintify.editor.EraserController;
+import com.paintify.editor.FillController;
+import com.paintify.editor.ImageViewer;
 import com.paintify.editor.RectController;
+import java.awt.event.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.net.URL;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
  
-public class MainWindow {
+public class MainWindow implements ActionListener{
     private static MainWindow instance=null;
     private JFrame mainFrame;
     public static boolean RIGHT_TO_LEFT = false;
+    private ImageViewer viewer = null;
 
     private MainWindow(){
 
     }
 
-    private static JButton createImageButton(String iconFilePath){
+    private JButton createImageButton(String actionKey, String iconFilePath){
         JButton button;
         ImageIcon bIcon;
 
         bIcon=new ImageIcon(MainWindow.class.getResource(iconFilePath));
         button = new JButton(bIcon);
-        // button.setBackground(Color.WHITE);
-        // button.setOpaque(false);
-        // button.setMargin(new Insets(1,1,1,1));
+        button.setActionCommand(actionKey);
+        button.addActionListener(this);
+
+        button.setBackground(Color.WHITE);
+        button.setOpaque(false);
+        button.setMargin(new Insets(1,1,1,1));
         return button;
     }
-
-    private void setUpMenuBar()
-  {
-
-  // menu components
-  /** menu bar */
-   JMenuBar menuBar;
-  /** zoom menu */
-   JMenu zoomMenu;
-  /** 25% zoom level */
-   JMenuItem twentyFive;
-  /** 50% zoom level */
-   JMenuItem fifty;
-  /** 75% zoom level */
-   JMenuItem seventyFive;
-  /** 100% zoom level */
-   JMenuItem hundred;
-  /** 150% zoom level */
-   JMenuItem hundredFifty;
-  /** 200% zoom level */
-   JMenuItem twoHundred;
-  /** 500% zoom level */
-   JMenuItem fiveHundred;    
-    //create menu
-    menuBar = new JMenuBar();
-    
-    
-    
-    zoomMenu = new JMenu("Zoom");
-    twentyFive = new JMenuItem("25%");
-    fifty = new JMenuItem("50%");
-    seventyFive = new JMenuItem("75%");
-    hundred = new JMenuItem("100%");
-    hundred.setEnabled(false);
-    hundredFifty = new JMenuItem("150%");
-    twoHundred = new JMenuItem("200%");
-    fiveHundred = new JMenuItem("500%");
-    
-    // add the action listeners
-    twentyFive.addActionListener(AppController.getInstance());
-    fifty.addActionListener(AppController.getInstance());
-    seventyFive.addActionListener(AppController.getInstance());
-    hundred.addActionListener(AppController.getInstance());
-    hundredFifty.addActionListener(AppController.getInstance());
-    twoHundred.addActionListener(AppController.getInstance());
-    fiveHundred.addActionListener(AppController.getInstance());
-    
-    // add the menu items to the menus
-    zoomMenu.add(twentyFive);
-    zoomMenu.add(fifty);
-    zoomMenu.add(seventyFive);
-    zoomMenu.add(hundred);
-    zoomMenu.add(hundredFifty);
-    zoomMenu.add(twoHundred);
-    zoomMenu.add(fiveHundred);
-    menuBar.add(zoomMenu);
-    
-    // setUpSelectType();
-    
-    // set the menu bar to this menu
-    mainFrame.setJMenuBar(menuBar);
-  }
      
     private void createLayout(Container pane) {
+
+        DrawingConfig config=DrawingConfig.getInstance();
+
+        config.setConfig("color.fg", Color.RED);
+        config.setConfig("brush.size",  Integer.valueOf(50));
+
+
          
         if (!(pane.getLayout() instanceof BorderLayout)) {
             pane.add(new JLabel("Container doesn't use BorderLayout!"));
@@ -118,44 +61,29 @@ public class MainWindow {
         }
 
         JPanel drawingModes=new JPanel();
+            drawingModes.setLayout(new FlowLayout(FlowLayout.LEFT));
         //  Add Logo
             drawingModes.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
 
         // Add a bunch of Drawing Operations you can perform
-            drawingModes.add(createImageButton("/images/buttons/icons8-fill-color-50.png"));
-            drawingModes.add(createImageButton("/images/buttons/icons8-illustrator-50.png"));
-
+            drawingModes.add(createImageButton("FILL","/images/buttons/icons8-fill-color-50.png"));
+            drawingModes.add(createImageButton("BRUSH","/images/buttons/icons8-illustrator-50.png"));
+            drawingModes.add(createImageButton( "ERASER", "/images/buttons/icons8-eraser-50.png"));
         // Adding the Top Drawing Modes to the Main Frame Panel 
         pane.add(drawingModes, BorderLayout.PAGE_START);
          
         //Make the center component big, since that's the
         //typical usage of BorderLayout.
 
-        // Adding the actual Editor
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setPreferredSize(new Dimension(1024, 768));
+       viewer = new ImageViewer();
+        viewer.addBrushController("RECT", new RectController(viewer));
+        viewer.addBrushController("FILL", new FillController(viewer));
+        viewer.addBrushController("ERASER", new EraserController(viewer));        
+        viewer.addBrushController("BRUSH", new BrushController(viewer));        
 
-        BufferedImage bi=null;
-        try {
-            bi = ImageIO.read(MainWindow.class.getResource("/images/avacado.jpeg"));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        viewer.setController("FILL");
 
-        ImageDisplay imageDisplay = new ImageDisplay(bi);
-        scrollPane.setViewportView(imageDisplay);
-        imageDisplay.setToolTipText("Click a mouse button on a pixel to see the pixel information");
-        imageDisplay.setBackground(Color.BLACK);
-        imageDisplay.setOpaque(true);
-
-        pane.add(scrollPane, BorderLayout.CENTER);
-
-        // THIS IS HARD WIRED, and needs to be Configurable based on Icon that was clicked
-        // Also, need to create the FLOOD Fill Controller, and use the Code written by JIA
-        DrawingController bController = new BrushController(bi,  imageDisplay);
-
-        imageDisplay.addMouseMotionListener(bController);
+        pane.add(viewer, BorderLayout.CENTER);
         
         // No 2
 
@@ -182,7 +110,7 @@ public class MainWindow {
     private void createAndShowGUI() {
          
         //Create and set up the window.
-        mainFrame = new JFrame("Painterly");
+        mainFrame = new JFrame("Paintify");
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Set up the content pane.
@@ -190,7 +118,6 @@ public class MainWindow {
         //Use the content pane's default BorderLayout. No need for
         //setLayout(new BorderLayout());
         //Display the window.
-        setUpMenuBar();
 
 
         mainFrame.pack();
@@ -231,5 +158,11 @@ public class MainWindow {
                 // This is where everything gets Started
             }
         });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        viewer.setController(e.getActionCommand()); 
+               
     }
 }

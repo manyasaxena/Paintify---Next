@@ -6,7 +6,9 @@ public class AppController implements ActionListener {
     private static AppController instance=null;
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        System.out.println(e.getActionCommand() + " Pressed ");
+
+        // TODO Add Code to Change the DRAWING CONTROLLERS and also change Toolbar on Side
         
     }
     public static AppController getInstance(){

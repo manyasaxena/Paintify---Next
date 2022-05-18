@@ -1,5 +1,4 @@
 package com.paintify;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
@@ -10,13 +9,9 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.File;
 import java.lang.reflect.Field;
-
 import javax.swing.*;
-
 import java.awt.image.*;
-
 import javax.swing.border.*;
-
 import com.paintify.picture.DigitalPicture;
 import com.paintify.picture.Picture;
 import com.paintify.picture.Pixel;

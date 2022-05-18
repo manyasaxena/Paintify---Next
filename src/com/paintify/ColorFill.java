@@ -79,7 +79,7 @@ public class ColorFill extends JFrame{
 					// change the color of the pixel of image
 					i.setRGB(x, y, c1.getRGB());
 
-					g.drawImage(i, 100, 100, this);
+					// g.drawImage(i, 100, 100, this);
 
 					// floodfill in all possible directions
 					// store them in queue

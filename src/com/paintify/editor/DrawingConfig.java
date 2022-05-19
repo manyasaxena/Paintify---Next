@@ -2,10 +2,12 @@ package com.paintify.editor;
 
 import java.util.HashMap;
 
-public class DrawingConfig {
+public class DrawingConfig{
     HashMap<String,Object> config=new HashMap<String,Object>();
 
     static DrawingConfig instance = null;
+
+    // static final String FG_COLOR="fg.color";
 
     public static DrawingConfig getInstance(){
         if (instance==null)

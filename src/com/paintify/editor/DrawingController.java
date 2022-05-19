@@ -1,18 +1,18 @@
 package com.paintify.editor;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 
 import javax.swing.event.MouseInputAdapter;
 
 public abstract class DrawingController extends MouseInputAdapter{
-    Image image;
+    BufferedImage image;
     ImageViewer viewer;
     Graphics graphics;
 
     protected DrawingController(ImageViewer viewer){
         this.viewer=viewer;
-        this.image=viewer.getImage();
+        this.image=(BufferedImage)viewer.getImage();
         this.graphics=image.getGraphics();
     }
 

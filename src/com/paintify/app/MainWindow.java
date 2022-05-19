@@ -1,6 +1,10 @@
 package com.paintify.app;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputListener;
+
 import java.awt.FlowLayout;
 
 import com.paintify.editor.BrushController;
@@ -46,7 +50,7 @@ public class MainWindow implements ActionListener{
         DrawingConfig config=DrawingConfig.getInstance();
 
         config.setConfig("color.fg", Color.RED);
-        config.setConfig("brush.size",  Integer.valueOf(50));
+        config.setConfig("brush.size",  Integer.valueOf(10));
 
 
          
@@ -88,12 +92,34 @@ public class MainWindow implements ActionListener{
         // No 2
 
         ////////////////
-         
-        JButton button = new JButton("Tools");
-        pane.add(button, BorderLayout.LINE_START);
+        JButton btn = new JButton("Choose Color");
+        btn.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.RED);
+                config.setConfig("color.fg", newColor);
+                
+            }
+
+        });
+        pane.add(btn, BorderLayout.LINE_START);
+
+        // JColorChooser jc  =new JColorChooser();
+        // jc.getSelectionModel().addChangeListener(new ChangeListener() {
+
+        //     @Override
+        //     public void stateChanged(ChangeEvent e) {
+        //         e.
+                
+        //         config.setConfig("color.fg", jc.getColor());
+        //     }
+            
+        // });
+        // pane.add(jc, BorderLayout.LINE_START);
         // No 3
          
-        button = new JButton("Footer");
+        JButton button = new JButton("Footer");
         pane.add(button, BorderLayout.PAGE_END);
         // No 4
          

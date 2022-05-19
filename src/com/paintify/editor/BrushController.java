@@ -15,8 +15,8 @@ public class BrushController extends DrawingController {
         Integer brushSize=(Integer)config.getConfig("brush.size");
         int brushSizeSimple = brushSize.intValue();
 
-        graphics.setColor(Color.BLACK);
-        graphics.fillOval(x-brushSizeSimple, y-brushSizeSimple, brushSizeSimple, brushSizeSimple);
+        graphics.setColor((Color)config.getConfig("color.fg"));
+        graphics.fillOval(x-brushSizeSimple, y-brushSizeSimple, brushSizeSimple*2, brushSizeSimple*2);
         viewer.repaint();
 
     }

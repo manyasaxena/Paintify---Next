@@ -45,7 +45,7 @@ public class MainWindow implements ActionListener{
         return button;
     }
      
-    private void createLayout(Container pane) {
+    private void createLayout(Container mainWindowPane) {
 
         DrawingConfig config=DrawingConfig.getInstance();
 
@@ -54,27 +54,27 @@ public class MainWindow implements ActionListener{
 
 
          
-        if (!(pane.getLayout() instanceof BorderLayout)) {
-            pane.add(new JLabel("Container doesn't use BorderLayout!"));
+        if (!(mainWindowPane.getLayout() instanceof BorderLayout)) {
+            mainWindowPane.add(new JLabel("Container doesn't use BorderLayout!"));
             return;
         }
          
         if (RIGHT_TO_LEFT) {
-            pane.setComponentOrientation(
+            mainWindowPane.setComponentOrientation(
                     java.awt.ComponentOrientation.RIGHT_TO_LEFT);
         }
 
-        JPanel drawingModes=new JPanel();
-            drawingModes.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JPanel controlPanel =new JPanel();
+        controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         //  Add Logo
-            drawingModes.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
+        controlPanel.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
 
         // Add a bunch of Drawing Operations you can perform
-            drawingModes.add(createImageButton("FILL","/images/buttons/icons8-fill-color-50.png"));
-            drawingModes.add(createImageButton("BRUSH","/images/buttons/icons8-illustrator-50.png"));
-            drawingModes.add(createImageButton( "ERASER", "/images/buttons/icons8-eraser-50.png"));
+        controlPanel.add(createImageButton("FILL","/images/buttons/icons8-fill-color-50.png"));
+        controlPanel.add(createImageButton("BRUSH","/images/buttons/icons8-illustrator-50.png"));
+        controlPanel.add(createImageButton( "ERASER", "/images/buttons/icons8-eraser-50.png"));
         // Adding the Top Drawing Modes to the Main Frame Panel 
-        pane.add(drawingModes, BorderLayout.PAGE_START);
+        mainWindowPane.add(controlPanel, BorderLayout.PAGE_START);
          
         //Make the center component big, since that's the
         //typical usage of BorderLayout.
@@ -87,23 +87,58 @@ public class MainWindow implements ActionListener{
 
         viewer.setController("FILL");
 
-        pane.add(viewer, BorderLayout.CENTER);
+        mainWindowPane.add(viewer, BorderLayout.CENTER);
         
         // No 2
 
         ////////////////
+
+        // Make color chooser button part of toolbar panel
+        JPanel toolbar = new JPanel();
+        toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.PAGE_AXIS));
+        JPanel fill =  new JPanel();
+        fill.setBorder(BorderFactory.createEtchedBorder());
         JButton btn = new JButton("Choose Color");
+        fill.add(btn);
+        toolbar.add(fill);
+
+
+        // Make Brush Size slider part of new panel
+        
+        JSlider brushSize = new JSlider(5, 50, 10);
+        brushSize.addChangeListener(new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                // TODO Auto-generated method stub
+                JSlider source = (JSlider)e.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    int ibrushSize = (int)source.getValue();
+                    config.setConfig("brush.size", Integer.valueOf(ibrushSize));
+                }   
+            }
+            
+        });
+
+
+        JPanel brushTools = new JPanel();
+        brushTools.add(brushSize);
+        brushTools.setBorder(BorderFactory.createEtchedBorder());
+        toolbar.add(brushTools);
+
         btn.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.RED);
                 config.setConfig("color.fg", newColor);
+
+                btn.setBackground(newColor);
                 
             }
 
         });
-        pane.add(btn, BorderLayout.LINE_START);
+        mainWindowPane.add(toolbar, BorderLayout.LINE_START);
 
         // JColorChooser jc  =new JColorChooser();
         // jc.getSelectionModel().addChangeListener(new ChangeListener() {
@@ -120,11 +155,11 @@ public class MainWindow implements ActionListener{
         // No 3
          
         JButton button = new JButton("Footer");
-        pane.add(button, BorderLayout.PAGE_END);
+        mainWindowPane.add(button, BorderLayout.PAGE_END);
         // No 4
          
         button = new JButton("Canvas Tools");
-        pane.add(button, BorderLayout.LINE_END);
+        mainWindowPane.add(button, BorderLayout.LINE_END);
         // No 5
     }
      

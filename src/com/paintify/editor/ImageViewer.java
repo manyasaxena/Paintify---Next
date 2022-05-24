@@ -32,7 +32,7 @@ public class ImageViewer extends JScrollPane {
         setPreferredSize(new Dimension(1024, 768));
 
         try {
-            currentImage = ImageIO.read(ImageViewer.class.getResource("/images/avacado.jpeg"));
+            currentImage = ImageIO.read(ImageViewer.class.getResource("/images/ball.jpg"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

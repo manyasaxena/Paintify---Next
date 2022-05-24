@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
 
-public class ImageEditor  extends JPanel implements Scrollable{
+public class ImageEditor extends JPanel implements Scrollable {
         /** the image to draw */
         private Image image;         
         /** the preferred size of the display */

@@ -16,7 +16,7 @@ public class EraserController extends DrawingController {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        graphics.setColor(Color.WHITE);
+        graphics.setColor(Color.YELLOW);
         graphics.fillOval(e.getX()-10, e.getY()-10, 10, 10);
         viewer.repaint();
     }

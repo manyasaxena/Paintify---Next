@@ -12,7 +12,7 @@ public abstract class DrawingController extends MouseInputAdapter{
 
     protected DrawingController(ImageViewer viewer){
         this.viewer=viewer;
-        this.image=(BufferedImage)viewer.getImage();
+        this.image=(BufferedImage)viewer.getEditor().getImage();
         this.graphics=image.getGraphics();
     }
 

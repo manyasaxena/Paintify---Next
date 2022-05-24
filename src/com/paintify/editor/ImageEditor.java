@@ -5,9 +5,11 @@
  */
 package com.paintify.editor;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.io.IOException;
 
 public class ImageEditor extends JPanel implements Scrollable {
         /** the image to draw */
@@ -23,12 +25,9 @@ public class ImageEditor extends JPanel implements Scrollable {
          * Constructor that takes the image to display
          * @param theImage the image to display
          */
-        public ImageEditor(Image theImage)
+        public ImageEditor()
         {
-          image = theImage;
-          prefSize = new Dimension(image.getWidth(this),image.getHeight(this));
-          setPreferredSize(prefSize);
-          revalidate();
+          image = null;
         }
         
         /**
@@ -39,7 +38,7 @@ public class ImageEditor extends JPanel implements Scrollable {
          */
         public ImageEditor(Image theImage, int x, int y)
         {
-          this(theImage);
+          this();
           currentX = x;
           currentY = y;
         }
@@ -206,6 +205,19 @@ public class ImageEditor extends JPanel implements Scrollable {
               g.drawLine(leftX,downY,leftX,yEnd);
             
           }
+        }
+
+        public void loadImage(String string) {
+          try {
+            image = ImageIO.read(ImageEditor.class.getResource("/images/ball.jpeg"));
+          } catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+          }        
+          
+          prefSize = new Dimension(image.getWidth(this),image.getHeight(this));
+          setPreferredSize(prefSize);
+          revalidate();
         }
       
 }

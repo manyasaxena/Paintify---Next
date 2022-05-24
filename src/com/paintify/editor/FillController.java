@@ -1,16 +1,9 @@
 package com.paintify.editor;
 import java.awt.event.MouseEvent;
 import java.util.Stack;
-
-import javax.lang.model.util.ElementScanner14;
-
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-
-
 import java.awt.Color;
-import java.awt.Graphics;
 
 public class FillController extends DrawingController {
 

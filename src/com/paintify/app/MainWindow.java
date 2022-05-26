@@ -8,11 +8,15 @@ import javax.swing.event.MouseInputListener;
 import java.awt.FlowLayout;
 
 import com.paintify.editor.BrushController;
+import com.paintify.editor.ColorCompareEditor;
 import com.paintify.editor.DrawingConfig;
 import com.paintify.editor.EraserController;
 import com.paintify.editor.FillController;
+import com.paintify.editor.ImageEditor;
 import com.paintify.editor.ImageViewer;
 import com.paintify.editor.RectController;
+import com.paintify.editor.color.ColorPalettePicker;
+
 import java.awt.event.*;
 
 import java.awt.BorderLayout;
@@ -100,6 +104,15 @@ public class MainWindow implements ActionListener{
         fill.setBorder(BorderFactory.createEtchedBorder());
         JButton btn = new JButton("Choose Color");
         fill.add(btn);
+        ImageEditor editor = viewer.getEditor();
+        if (editor instanceof ColorCompareEditor){
+            ColorCompareEditor cceditor = (ColorCompareEditor) editor;
+
+            ColorPalettePicker cp=new ColorPalettePicker(cceditor.getReferenceImage());
+            fill.add(cp);
+
+        }
+        
         toolbar.add(fill);
 
 

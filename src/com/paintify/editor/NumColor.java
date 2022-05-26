@@ -61,9 +61,9 @@ public class NumColor extends DrawingController {
 
             if (rectBounds.contains(currentPoint)) {
                 Color currentColor = new Color(image.getRGB(currentPoint.x, currentPoint.y));
-                if ((Math.abs(currentColor.getGreen() - startingColor.getGreen()) < 30)
-                        && (Math.abs(currentColor.getBlue() - startingColor.getBlue()) < 30)
-                        && (Math.abs(currentColor.getRed() - startingColor.getRed()) < 30)) {
+                if ((Math.abs(currentColor.getGreen() - startingColor.getGreen()) < 200)
+                        && (Math.abs(currentColor.getBlue() - startingColor.getBlue()) < 200)
+                        && (Math.abs(currentColor.getRed() - startingColor.getRed()) < 200)) {
                     image.setRGB(currentPoint.x, currentPoint.y, chosen.getRGB());
 
                     stack.push(new Point(currentPoint.x, currentPoint.y + 1));

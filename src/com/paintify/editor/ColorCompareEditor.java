@@ -1,12 +1,20 @@
 package com.paintify.editor;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import com.paintify.editor.color.ColorPalettePicker;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.IOException;
 
 public class ColorCompareEditor extends ImageEditor {
     private BufferedImage imageReference;
+
+    public BufferedImage getReferenceImage(){
+        return imageReference;
+
+    }
 
     public void loadImage(String str){
         super.loadImage(str);
@@ -18,6 +26,8 @@ public class ColorCompareEditor extends ImageEditor {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }  
+
+        ColorPalettePicker cp=new ColorPalettePicker(imageReference);
 
 
     }

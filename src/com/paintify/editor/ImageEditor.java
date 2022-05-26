@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ImageEditor extends JPanel implements Scrollable {
         /** the image to draw */
-        private Image image;         
+        protected BufferedImage image;        
         /** the preferred size of the display */
         private Dimension prefSize;  
         /** the current x index */
@@ -47,7 +47,7 @@ public class ImageEditor extends JPanel implements Scrollable {
          * Method to get the image
          * @return the image
          */
-        public Image getImage() { return image; }
+        public BufferedImage getImage() { return image; }
         
         /**
          * Method to get the current x
@@ -85,7 +85,7 @@ public class ImageEditor extends JPanel implements Scrollable {
          * Method to set the image
          * @param theImage the new image to use
          */
-        public void setImage(Image theImage)
+        public void setImage(BufferedImage theImage)
         {
           image = theImage;
           setPreferredSize(new Dimension(image.getWidth(this),image.getHeight(this)));
@@ -209,7 +209,7 @@ public class ImageEditor extends JPanel implements Scrollable {
 
         public void loadImage(String string) {
           try {
-            image = ImageIO.read(ImageEditor.class.getResource("/images/ball.jpeg"));
+            image = ImageIO.read(ImageEditor.class.getResource(string));
           } catch (IOException e) {
               // TODO Auto-generated catch block
               e.printStackTrace();

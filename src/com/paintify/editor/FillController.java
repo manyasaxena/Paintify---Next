@@ -21,6 +21,7 @@ public class FillController extends DrawingController {
 
         while (!stack.isEmpty()){
             Point currentPoint = stack.pop();
+            if (stack.size()>100000) break;
 
             if (rectBounds.contains(currentPoint)){
                 Color currentColor=new Color(image.getRGB(currentPoint.x, currentPoint.y));

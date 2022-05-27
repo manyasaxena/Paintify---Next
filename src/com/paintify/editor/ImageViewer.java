@@ -1,9 +1,10 @@
 package com.paintify.editor;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import java.util.HashMap;
+import java.awt.Cursor;
+import java.awt.Toolkit;
 
 
 public class ImageViewer extends JScrollPane {
@@ -12,18 +13,13 @@ public class ImageViewer extends JScrollPane {
     HashMap<String,DrawingController> allControllers=new HashMap<String,DrawingController>();
 
     public ImageEditor getEditor(){
+
         return editor;
     }
     public ImageViewer(){
-        // JPanel group=new JPanel();
         setPreferredSize(new Dimension(1024, 768));
         editor = new ColorCompareEditor();
-        editor.loadImage("/images/ball.jpeg");
-
-        // ImageEditor ee=new ImageEditor();
-        // ee.loadImage("/images/ball.color.jpeg");
-        // group.add(ee);
-        // group.add(editor);
+        editor.loadImage("/images/avacado.png");
 
         setViewportView(editor);
     }

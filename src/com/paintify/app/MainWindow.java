@@ -97,75 +97,65 @@ public class MainWindow implements ActionListener{
 
         ////////////////
 
-        // Make color chooser button part of toolbar panel
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.PAGE_AXIS));
-        JPanel fill =  new JPanel();
-        fill.setBorder(BorderFactory.createEtchedBorder());
-        JButton btn = new JButton("Choose Color");
-        fill.add(btn);
-        ImageEditor editor = viewer.getEditor();
-        if (editor instanceof ColorCompareEditor){
-            ColorCompareEditor cceditor = (ColorCompareEditor) editor;
 
-            ColorPalettePicker cp=new ColorPalettePicker(cceditor.getReferenceImage());
-            fill.add(cp);
+            JPanel fill =  new JPanel();
 
-        }
+            fill.setBorder(BorderFactory.createEtchedBorder());
+            fill.setLayout(new BoxLayout(fill,BoxLayout.Y_AXIS));
+            ImageEditor editor = viewer.getEditor();
+
+            if (editor instanceof ColorCompareEditor){ // Do we play Color Memory?
+                ColorCompareEditor cceditor = (ColorCompareEditor) editor;
+
+                ColorPalettePicker cp=new ColorPalettePicker(cceditor.getReferenceImage());
+                fill.add(cp);
+
+            }else{
+            // Make color chooser button part of toolbar panel
+
+                JButton btn = new JButton("Choose Color");
+                fill.add(btn);
+
+                btn.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.RED);
+                        config.setConfig("color.fg", newColor);
         
+                        btn.setBackground(newColor);
+                        
+                    }
+        
+                });            
+
+            }
         toolbar.add(fill);
 
-
-        // Make Brush Size slider part of new panel
-        
-        JSlider brushSize = new JSlider(5, 50, 10);
-        brushSize.addChangeListener(new ChangeListener() {
-
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                // TODO Auto-generated method stub
-                JSlider source = (JSlider)e.getSource();
-                if (!source.getValueIsAdjusting()) {
-                    int ibrushSize = (int)source.getValue();
-                    config.setConfig("brush.size", Integer.valueOf(ibrushSize));
-                }   
-            }
-            
-        });
-
-
+        // Make Brush Size slider part of new panel     
         JPanel brushTools = new JPanel();
-        brushTools.add(brushSize);
-        brushTools.setBorder(BorderFactory.createEtchedBorder());
+        brushTools.setBorder(BorderFactory.createEtchedBorder());   
+            JSlider brushSize = new JSlider(5, 50, 10);
+            brushSize.addChangeListener(new ChangeListener() {
+
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    // TODO Auto-generated method stub
+                    JSlider source = (JSlider)e.getSource();
+                    if (!source.getValueIsAdjusting()) {
+                        int ibrushSize = (int)source.getValue();
+                        config.setConfig("brush.size", Integer.valueOf(ibrushSize));
+                    }   
+                }
+                
+            });
+
+            brushTools.add(brushSize);            
+
         toolbar.add(brushTools);
-
-        btn.addActionListener(new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.RED);
-                config.setConfig("color.fg", newColor);
-
-                btn.setBackground(newColor);
-                
-            }
-
-        });
         mainWindowPane.add(toolbar, BorderLayout.LINE_START);
-
-        // JColorChooser jc  =new JColorChooser();
-        // jc.getSelectionModel().addChangeListener(new ChangeListener() {
-
-        //     @Override
-        //     public void stateChanged(ChangeEvent e) {
-        //         e.
-                
-        //         config.setConfig("color.fg", jc.getColor());
-        //     }
-            
-        // });
-        // pane.add(jc, BorderLayout.LINE_START);
-        // No 3
          
         JButton button = new JButton("Footer");
         mainWindowPane.add(button, BorderLayout.PAGE_END);

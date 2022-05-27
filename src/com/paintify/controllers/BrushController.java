@@ -1,16 +1,20 @@
-package com.paintify.editor;
+package com.paintify.controllers;
 
 import java.awt.event.MouseEvent;
+
+import com.paintify.app.AppConfig;
+import com.paintify.panels.ImagePanel;
+
 import java.awt.Color;
 
 public class BrushController extends DrawingController {
 
-    public BrushController(ImageViewer viewer){
+    public BrushController(ImagePanel viewer){
         super(viewer);
     }
 
     private void drawBrush(int x, int y){
-        DrawingConfig config=DrawingConfig.getInstance();
+        AppConfig config=AppConfig.getInstance();
 
         Integer brushSize=(Integer)config.getConfig("brush.size");
         int brushSizeSimple = brushSize.intValue();

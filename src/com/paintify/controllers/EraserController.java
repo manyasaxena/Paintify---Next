@@ -1,16 +1,15 @@
-package com.paintify.editor;
+package com.paintify.controllers;
 
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
-import com.paintify.ImageDisplay;
+import com.paintify.panels.ImagePanel;
 
 import java.awt.Graphics;
 import java.awt.Color;
 
 public class EraserController extends DrawingController {
 
-    public EraserController(ImageViewer viewer){
+    public EraserController(ImagePanel viewer){
         super(viewer);
     }
 

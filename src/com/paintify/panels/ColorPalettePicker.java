@@ -1,4 +1,4 @@
-package com.paintify.editor.color;
+package com.paintify.panels;
 
 import java.awt.image.*;
 import java.util.HashMap;
@@ -11,8 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.paintify.editor.DrawingConfig;
-
+import com.paintify.app.AppConfig;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -62,7 +61,7 @@ public class ColorPalettePicker extends JPanel{
 
                 System.out.println(palette.get(bt.getColor()));
 
-                DrawingConfig config=DrawingConfig.getInstance();
+                AppConfig config=AppConfig.getInstance();
                 config.setConfig("color.fg", bt.getColor());
             }
            });

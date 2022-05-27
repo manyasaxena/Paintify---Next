@@ -1,9 +1,8 @@
-package com.paintify.editor;
+package com.paintify.controllers;
 
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
-import com.paintify.ImageDisplay;
+import com.paintify.panels.ImagePanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,7 +12,7 @@ public class RectController extends DrawingController {
     int startX=0, startY=0;
     int endX=0, endY=0;    
 
-    public RectController(ImageViewer viewer){
+    public RectController(ImagePanel viewer){
         super(viewer);
     }
 

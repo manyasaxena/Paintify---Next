@@ -1,17 +1,18 @@
-package com.paintify.editor;
+package com.paintify.app;
 
 import java.util.HashMap;
 
-public class DrawingConfig{
+public class AppConfig{
     HashMap<String,Object> config=new HashMap<String,Object>();
 
-    static DrawingConfig instance = null;
+    static AppConfig instance = null;
 
-    // static final String FG_COLOR="fg.color";
+    static final String FILL_COLOR="color.fill";
+    static final String BRUSH_SIZE="brush.size";
 
-    public static DrawingConfig getInstance(){
+    public static AppConfig getInstance(){
         if (instance==null)
-            instance = new DrawingConfig();
+            instance = new AppConfig();
         return instance;
     }
 

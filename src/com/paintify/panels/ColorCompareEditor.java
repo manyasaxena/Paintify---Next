@@ -1,8 +1,6 @@
-package com.paintify.editor;
+package com.paintify.panels;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import com.paintify.editor.color.ColorPalettePicker;
 
 import java.awt.*;
 import java.awt.image.*;

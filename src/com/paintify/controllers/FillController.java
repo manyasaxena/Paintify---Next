@@ -1,13 +1,19 @@
-package com.paintify.editor;
+package com.paintify.controllers;
 import java.awt.event.MouseEvent;
 import java.util.Stack;
+
+import com.paintify.app.AppConfig;
+import com.paintify.panels.ColorCompareEditor;
+import com.paintify.panels.ImageEditor;
+import com.paintify.panels.ImagePanel;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Color;
 
 public class FillController extends DrawingController {
 
-    public FillController(ImageViewer viewer){
+    public FillController(ImagePanel viewer){
         super(viewer);
     }
 
@@ -43,7 +49,7 @@ public class FillController extends DrawingController {
 
     @Override
     public void mousePressed(MouseEvent e){
-        DrawingConfig config=DrawingConfig.getInstance();
+        AppConfig config=AppConfig.getInstance();
         Color chosen = (Color)config.getConfig("color.fg");
 
         ImageEditor editor = viewer.getEditor();

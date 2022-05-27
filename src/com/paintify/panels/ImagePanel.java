@@ -1,13 +1,16 @@
-package com.paintify.editor;
+package com.paintify.panels;
 
 import javax.swing.JScrollPane;
+
+import com.paintify.controllers.DrawingController;
+
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 
 
-public class ImageViewer extends JScrollPane {
+public class ImagePanel extends JScrollPane {
     ImageEditor editor=null;
     DrawingController currentController=null;
     HashMap<String,DrawingController> allControllers=new HashMap<String,DrawingController>();
@@ -16,7 +19,7 @@ public class ImageViewer extends JScrollPane {
 
         return editor;
     }
-    public ImageViewer(){
+    public ImagePanel(){
         setPreferredSize(new Dimension(1024, 768));
         editor = new ColorCompareEditor();
         editor.loadImage("/images/avacado.png");

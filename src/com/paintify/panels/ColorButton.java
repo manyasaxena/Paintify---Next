@@ -1,4 +1,4 @@
-package com.paintify.editor.color;
+package com.paintify.panels;
 
 import java.awt.Color;
 

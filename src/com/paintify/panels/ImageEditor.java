@@ -3,7 +3,7 @@
  * 
  * @author 
  */
-package com.paintify.editor;
+package com.paintify.panels;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

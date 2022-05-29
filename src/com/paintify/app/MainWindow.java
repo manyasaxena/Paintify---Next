@@ -52,6 +52,25 @@ public class MainWindow implements ActionListener{
             ColorPuzzle ccEditor = (ColorPuzzle)gamePanel.getEditor();
             ccEditor.reload();
         }
+        else if(command.equals("MONSTER")){
+            ColorPuzzle monster = (ColorPuzzle)gamePanel.getEditor();
+            monster.loadImage("/images/monster.png");
+            JPanel tools = createToolPanel();
+        
+        }
+        else if(command.equals("MICKEY")){
+            ColorPuzzle mickey = (ColorPuzzle)gamePanel.getEditor();
+            mickey.loadImage("/images/mickey.png");
+
+        }
+        else if(command.equals("FISH")){
+            ColorPuzzle fish = (ColorPuzzle)gamePanel.getEditor();
+            fish.loadImage("/images/pond.png");
+        }
+        else if(command.equals("AVACADO")){
+            ColorPuzzle ava = (ColorPuzzle)gamePanel.getEditor();
+            ava.loadImage("/images/avacado.png");
+        }
         else 
         gamePanel.setController(e.getActionCommand()); 
                
@@ -134,6 +153,7 @@ public class MainWindow implements ActionListener{
 
                 ColorPuzzle cceditor = (ColorPuzzle) editor;
 
+
                 ColorPalettePicker cp=new ColorPalettePicker(cceditor.getReferenceImage());
                 fill.add(cp);
 
@@ -163,19 +183,30 @@ public class MainWindow implements ActionListener{
         return toolbar;
     }
 
+    public void runMonsterFile(){
+
+    }
+
     private JPanel createControlPanel() {
         JPanel controlPanel =new JPanel();
+        JPanel chooser = new JPanel();
+        chooser.setLayout(new FlowLayout(FlowLayout.RIGHT));
         controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         //  Add Logo
         controlPanel.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
 
         // Add a bunch of Drawing Operations you can perform
+        chooser.add(createImageButton("MONSTER", "/images/buttons/icons8-cute-monster-50.png"));
+        chooser.add(createImageButton("MICKEY", "/images/buttons/icons8-mickey-50.png"));
+        chooser.add(createImageButton("FISH", "/images/buttons/icons8-fish-50.png"));
+        chooser.add(createImageButton("AVACADO", "/images/buttons/icons8-avocado-50.png"));
+
         controlPanel.add(createImageButton("FILL","/images/buttons/icons8-fill-color-50.png"));
         controlPanel.add(createImageButton("BRUSH","/images/buttons/icons8-paint-brush-50.png"));
         controlPanel.add(createImageButton( "ERASER", "/images/buttons/icons8-erase-50.png"));
         controlPanel.add(createImageButton( "HINT", "/images/buttons/icons8-one-shot-50.png"));
         controlPanel.add(createImageButton( "RELOAD", "/images/buttons/icons8-refresh-50.png"));
-
+        controlPanel.add(chooser);
         // Adding the Top Drawing Modes to the Main Frame Panel 
         return controlPanel;
     }

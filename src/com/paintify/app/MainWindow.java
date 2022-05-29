@@ -11,13 +11,14 @@ import com.paintify.controllers.BrushController;
 import com.paintify.controllers.EraserController;
 import com.paintify.controllers.FillController;
 import com.paintify.controllers.RectController;
-import com.paintify.panels.ColorCompareEditor;
+import com.paintify.panels.ColorPuzzle;
 import com.paintify.panels.ColorPalettePicker;
 import com.paintify.panels.ImageEditor;
-import com.paintify.panels.ImagePanel;
+import com.paintify.panels.ProgressPanel;
+import com.paintify.panels.GamePanel;
 
 import java.awt.event.*;
-
+import java.util.Timer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -28,16 +29,31 @@ public class MainWindow implements ActionListener{
     private static MainWindow instance=null;
     private JFrame mainFrame;
     public static boolean RIGHT_TO_LEFT = false;
-    private ImagePanel imagePanel = null;
+    private GamePanel gamePanel = null;
+    Timer pulse;
 
     private MainWindow(){
         config=AppConfig.getInstance();
-
+        pulse=new Timer();
     }
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        imagePanel.setController(e.getActionCommand()); 
+        String command = e.getActionCommand();
+        if(command.equals("HINT")){
+            ColorPuzzle puzzle = (ColorPuzzle)gamePanel.getEditor();
+            puzzle.showHint();
+           
+        }
+        else if (command.equals("RELOAD")){
+            ColorPuzzle ccEditor = (ColorPuzzle)gamePanel.getEditor();
+            ccEditor.reload();
+        }
+        else 
+        gamePanel.setController(e.getActionCommand()); 
                
     }    
 
@@ -76,25 +92,27 @@ public class MainWindow implements ActionListener{
         JPanel controlPanel = createControlPanel();
         mainWindowPane.add(controlPanel, BorderLayout.PAGE_START);
 
-        imagePanel=createEditorPanel();
+        gamePanel=createEditorPanel();
 
-        mainWindowPane.add(imagePanel, BorderLayout.CENTER);
+        mainWindowPane.add(gamePanel, BorderLayout.CENTER);
         
         // No 2 ////////////////
         JPanel toolbar = createToolPanel();
         mainWindowPane.add(toolbar, BorderLayout.LINE_START);
          
-        JButton button = new JButton("Footer");
-        mainWindowPane.add(button, BorderLayout.PAGE_END);
+        // JButton button = new JButton("Footer");
+        // mainWindowPane.add(button, BorderLayout.PAGE_END);
+        ProgressPanel progress = new ProgressPanel((ColorPuzzle)(gamePanel.getEditor()));
+        mainWindowPane.add(progress, BorderLayout.PAGE_END);
         // No 4
          
-        button = new JButton("Canvas Tools");
+        JButton button  = new JButton("Canvas Tools");
         mainWindowPane.add(button, BorderLayout.LINE_END);
         // No 5
     }
 
-    private ImagePanel createEditorPanel() {
-        ImagePanel panel = new ImagePanel();
+    private GamePanel createEditorPanel() {
+        GamePanel panel = new GamePanel();
         panel.addBrushController("RECT", new RectController(panel));
         panel.addBrushController("FILL", new FillController(panel));
         panel.addBrushController("ERASER", new EraserController(panel));        
@@ -112,34 +130,13 @@ public class MainWindow implements ActionListener{
 
             fill.setBorder(BorderFactory.createEtchedBorder());
             fill.setLayout(new BoxLayout(fill,BoxLayout.Y_AXIS));
-            ImageEditor editor = imagePanel.getEditor();
+            ImageEditor editor = gamePanel.getEditor();
 
-            if (editor instanceof ColorCompareEditor){ // Do we play Color Memory?
-                ColorCompareEditor cceditor = (ColorCompareEditor) editor;
+                ColorPuzzle cceditor = (ColorPuzzle) editor;
 
                 ColorPalettePicker cp=new ColorPalettePicker(cceditor.getReferenceImage());
                 fill.add(cp);
 
-            }else{
-            // Make color chooser button part of toolbar panel
-
-                JButton btn = new JButton("Choose Color");
-                fill.add(btn);
-
-                btn.addActionListener(new ActionListener(){
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.RED);
-                        config.setConfig("color.fg", newColor);
-        
-                        btn.setBackground(newColor);
-                        
-                    }
-        
-                });            
-
-            }
         toolbar.add(fill);
 
         // Make Brush Size slider part of new panel     
@@ -174,8 +171,11 @@ public class MainWindow implements ActionListener{
 
         // Add a bunch of Drawing Operations you can perform
         controlPanel.add(createImageButton("FILL","/images/buttons/icons8-fill-color-50.png"));
-        controlPanel.add(createImageButton("BRUSH","/images/buttons/icons8-illustrator-50.png"));
-        controlPanel.add(createImageButton( "ERASER", "/images/buttons/icons8-eraser-50.png"));
+        controlPanel.add(createImageButton("BRUSH","/images/buttons/icons8-paint-brush-50.png"));
+        controlPanel.add(createImageButton( "ERASER", "/images/buttons/icons8-erase-50.png"));
+        controlPanel.add(createImageButton( "HINT", "/images/buttons/icons8-one-shot-50.png"));
+        controlPanel.add(createImageButton( "RELOAD", "/images/buttons/icons8-refresh-50.png"));
+
         // Adding the Top Drawing Modes to the Main Frame Panel 
         return controlPanel;
     }

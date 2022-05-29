@@ -7,8 +7,8 @@ public class AppConfig{
 
     static AppConfig instance = null;
 
-    static final String FILL_COLOR="color.fill";
-    static final String BRUSH_SIZE="brush.size";
+    public static final String FILL_COLOR="color.fill";
+    public static final String BRUSH_SIZE="brush.size";
 
     public static AppConfig getInstance(){
         if (instance==null)

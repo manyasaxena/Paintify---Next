@@ -3,23 +3,26 @@ package com.paintify.controllers;
 import java.awt.event.MouseEvent;
 
 import com.paintify.app.AppConfig;
-import com.paintify.panels.ImagePanel;
+import com.paintify.panels.GamePanel;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class BrushController extends DrawingController {
 
-    public BrushController(ImagePanel viewer){
-        super(viewer);
+    public BrushController(GamePanel panel){
+        super(panel);
     }
 
     private void drawBrush(int x, int y){
+
+        Graphics graphics = getGraphics();
         AppConfig config=AppConfig.getInstance();
 
-        Integer brushSize=(Integer)config.getConfig("brush.size");
+        Integer brushSize=(Integer)config.getConfig(AppConfig.BRUSH_SIZE);
         int brushSizeSimple = brushSize.intValue();
 
-        graphics.setColor((Color)config.getConfig("color.fg"));
+        graphics.setColor((Color)config.getConfig(AppConfig.FILL_COLOR));
         graphics.fillOval(x-brushSizeSimple, y-brushSizeSimple, brushSizeSimple*2, brushSizeSimple*2);
         viewer.repaint();
 

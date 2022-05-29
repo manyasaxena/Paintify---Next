@@ -1,5 +1,6 @@
 package com.paintify.controllers;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 import java.util.Stack;
 
 import com.paintify.app.AppConfig;
@@ -26,7 +27,7 @@ public class FillController extends DrawingController {
         Math.pow((c1.getGreen()-c2.getGreen()),2)+
         Math.pow((c1.getBlue()-c2.getBlue()),2)));
 
-        return (dist<30);
+        return (dist<220);
     }
 
     private void fillColor(int x, int y, Color col){
@@ -34,9 +35,11 @@ public class FillController extends DrawingController {
 
         Rectangle rectBounds = new Rectangle(0,0,image.getWidth(), image.getHeight());
         Stack<Point> stack=new Stack<Point>();
+        HashSet<Point> visited = new HashSet<Point>();
 
         stack.push(new Point(x,y));
         Color startingColor = new Color(image.getRGB(x,y));
+        
 
         while (!stack.isEmpty()){
             Point currentPoint = stack.pop();
@@ -50,12 +53,28 @@ public class FillController extends DrawingController {
                 Color currentColor=new Color(image.getRGB(currentPoint.x, currentPoint.y));
                 if (isColorSimilar(currentColor, startingColor))
                 {
+                    visited.add(currentPoint);
                     image.setRGB(currentPoint.x, currentPoint.y, col.getRGB());
 
-                    stack.push(new Point(currentPoint.x-1,currentPoint.y));
-                    stack.push(new Point(currentPoint.x-1,currentPoint.y));                    stack.push(new Point(currentPoint.x+1,currentPoint.y));
-                    stack.push(new Point(currentPoint.x,currentPoint.y+1));
-                    stack.push(new Point(currentPoint.x,currentPoint.y-1));
+                    Point left=(Point)currentPoint.clone(); left.translate(-1,0);
+                    Point right=(Point)currentPoint.clone(); right.translate(1,0);
+                    Point top=(Point)currentPoint.clone(); top.translate(0,1);
+                    Point bottom=(Point)currentPoint.clone(); bottom.translate(0,-1);
+
+                    if (!visited.contains(left)) 
+                        stack.push(left);
+                    if (!visited.contains(right)) 
+                        stack.push(right);
+                    if (!visited.contains(top))   
+                        stack.push(top);
+                    if (!visited.contains(bottom)) 
+                        stack.push(bottom);
+
+
+                    // stack.push(new Point(currentPoint.x-1,currentPoint.y));
+                    // stack.push(new Point(currentPoint.x-1,currentPoint.y));                    stack.push(new Point(currentPoint.x+1,currentPoint.y));
+                    // stack.push(new Point(currentPoint.x,currentPoint.y+1));
+                    // stack.push(new Point(currentPoint.x,currentPoint.y-1));
 
                 }
             }

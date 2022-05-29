@@ -148,9 +148,9 @@ public class ColorPuzzle extends ImageEditor implements ActionListener {
         
           
     private boolean isColorCloseEnough(Color c1, Color c2){
-        return ((Math.abs(c1.getGreen() - c2.getGreen())<60) &&
-        (Math.abs(c1.getBlue() - c2.getBlue())<60) && 
-        (Math.abs(c1.getRed() - c2.getRed())<60));  
+        return ((Math.abs(c1.getGreen() - c2.getGreen())<30) &&
+        (Math.abs(c1.getBlue() - c2.getBlue())<30) && 
+        (Math.abs(c1.getRed() - c2.getRed())<30));  
     }
     
     public boolean isColorMatch(int x, int y, Color fillColor){

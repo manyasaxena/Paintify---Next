@@ -2,7 +2,7 @@ package com.paintify.controllers;
 
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import com.paintify.panels.ImagePanel;
+import com.paintify.panels.GamePanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,7 +12,7 @@ public class RectController extends DrawingController {
     int startX=0, startY=0;
     int endX=0, endY=0;    
 
-    public RectController(ImagePanel viewer){
+    public RectController(GamePanel viewer){
         super(viewer);
     }
 
@@ -31,6 +31,7 @@ public class RectController extends DrawingController {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        Graphics graphics = viewer.getEditor().getGraphics();        
         endX=e.getX();
         endY=e.getY();
         if ((startX<endX) &&  (startY<endY)){

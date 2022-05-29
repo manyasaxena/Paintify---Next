@@ -62,7 +62,7 @@ public class ColorPalettePicker extends JPanel{
                 System.out.println(palette.get(bt.getColor()));
 
                 AppConfig config=AppConfig.getInstance();
-                config.setConfig("color.fg", bt.getColor());
+                config.setConfig(AppConfig.FILL_COLOR, bt.getColor());
             }
            });
 

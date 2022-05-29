@@ -10,19 +10,19 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 
 
-public class ImagePanel extends JScrollPane {
+public class GamePanel extends JScrollPane {
     ImageEditor editor=null;
     DrawingController currentController=null;
     HashMap<String,DrawingController> allControllers=new HashMap<String,DrawingController>();
-
     public ImageEditor getEditor(){
 
         return editor;
     }
-    public ImagePanel(){
+
+    public GamePanel(){
         setPreferredSize(new Dimension(1024, 768));
-        editor = new ColorCompareEditor();
-        editor.loadImage("/images/avacado.png");
+        editor = new ColorPuzzle();
+        editor.loadImage("/images/mickey.png");
 
         setViewportView(editor);
     }

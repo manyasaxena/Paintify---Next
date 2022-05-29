@@ -3,21 +3,26 @@ import java.awt.event.MouseEvent;
 import java.util.Stack;
 
 import com.paintify.app.AppConfig;
-import com.paintify.panels.ColorCompareEditor;
+import com.paintify.panels.ColorPuzzle;
 import com.paintify.panels.ImageEditor;
-import com.paintify.panels.ImagePanel;
+import com.paintify.panels.GamePanel;
+
+import java.awt.image.BufferedImage;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class FillController extends DrawingController {
 
-    public FillController(ImagePanel viewer){
+    public FillController(GamePanel viewer){
         super(viewer);
     }
 
     private void fillColor(int x, int y, Color col){
+        Graphics graphics = getGraphics();  
+        BufferedImage image  = getImage();
 
         Rectangle rectBounds = new Rectangle(0,0,image.getWidth(), image.getHeight());
         Stack<Point> stack=new Stack<Point>();
@@ -44,26 +49,28 @@ public class FillController extends DrawingController {
                 }
             }
         }        
-
+        viewer.repaint();
     }
 
     @Override
     public void mousePressed(MouseEvent e){
         AppConfig config=AppConfig.getInstance();
-        Color chosen = (Color)config.getConfig("color.fg");
+        Color chosen = (Color)config.getConfig(AppConfig.FILL_COLOR);
 
         ImageEditor editor = viewer.getEditor();
 
-        if (editor instanceof ColorCompareEditor){
-            ColorCompareEditor ccEditor = (ColorCompareEditor) editor;
+        if (editor instanceof ColorPuzzle){
+            ColorPuzzle ccEditor = (ColorPuzzle) editor;
             if (ccEditor.isColorMatch(e.getX(),e.getY(), chosen)){
                 fillColor(e.getX(),e.getY(), chosen);
-            }
+                ccEditor.showMessage("NICE , Keep Going!", Color.GREEN, 500);
+            }else
+                ccEditor.showMessage("Wrong Color, Try Again",Color.RED, 2000);
+
         }else
             fillColor(e.getX(),e.getY(), chosen);
 
         viewer.repaint();
     }
-    
 }
 

@@ -20,6 +20,15 @@ public class FillController extends DrawingController {
         super(viewer);
     }
 
+    private boolean isColorSimilar(Color c1, Color c2){
+
+        double dist = Math.sqrt((Math.pow((c1.getRed()-c2.getRed()),2)+
+        Math.pow((c1.getGreen()-c2.getGreen()),2)+
+        Math.pow((c1.getBlue()-c2.getBlue()),2)));
+
+        return (dist<80);
+    }
+
     private void fillColor(int x, int y, Color col){
         Graphics graphics = getGraphics();  
         BufferedImage image  = getImage();
@@ -33,12 +42,11 @@ public class FillController extends DrawingController {
         while (!stack.isEmpty()){
             Point currentPoint = stack.pop();
             if (stack.size()>100000) break;
+            int threshold = 100;
 
             if (rectBounds.contains(currentPoint)){
                 Color currentColor=new Color(image.getRGB(currentPoint.x, currentPoint.y));
-                if ((Math.abs(currentColor.getGreen() - startingColor.getGreen())<30) &&
-                (Math.abs(currentColor.getBlue() - startingColor.getBlue())<30) && 
-                (Math.abs(currentColor.getRed() - startingColor.getRed())<30))
+                if (isColorSimilar(currentColor, startingColor))
                 {
                     image.setRGB(currentPoint.x, currentPoint.y, col.getRGB());
 

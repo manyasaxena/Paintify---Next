@@ -22,7 +22,7 @@ public class GamePanel extends JScrollPane {
     public GamePanel(){
         setPreferredSize(new Dimension(1024, 768));
         editor = new ColorPuzzle();
-        editor.loadImage("/images/mickey.png");
+        editor.loadImage("/images/avacado.png");
 
         setViewportView(editor);
     }

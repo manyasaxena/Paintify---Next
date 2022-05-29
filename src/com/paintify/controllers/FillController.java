@@ -26,11 +26,10 @@ public class FillController extends DrawingController {
         Math.pow((c1.getGreen()-c2.getGreen()),2)+
         Math.pow((c1.getBlue()-c2.getBlue()),2)));
 
-        return (dist<80);
+        return (dist<30);
     }
 
     private void fillColor(int x, int y, Color col){
-        Graphics graphics = getGraphics();  
         BufferedImage image  = getImage();
 
         Rectangle rectBounds = new Rectangle(0,0,image.getWidth(), image.getHeight());
@@ -41,8 +40,11 @@ public class FillController extends DrawingController {
 
         while (!stack.isEmpty()){
             Point currentPoint = stack.pop();
-            if (stack.size()>100000) break;
-            int threshold = 100;
+            if (stack.size()>300000) {
+                System.out.println("I am really lost now, so no more flood fill");
+                break;
+            }
+
 
             if (rectBounds.contains(currentPoint)){
                 Color currentColor=new Color(image.getRGB(currentPoint.x, currentPoint.y));
@@ -50,10 +52,11 @@ public class FillController extends DrawingController {
                 {
                     image.setRGB(currentPoint.x, currentPoint.y, col.getRGB());
 
-                    stack.push(new Point(currentPoint.x,currentPoint.y+1));
-                    stack.push(new Point(currentPoint.x+1,currentPoint.y));
-                    stack.push(new Point(currentPoint.x,currentPoint.y-1));
                     stack.push(new Point(currentPoint.x-1,currentPoint.y));
+                    stack.push(new Point(currentPoint.x-1,currentPoint.y));                    stack.push(new Point(currentPoint.x+1,currentPoint.y));
+                    stack.push(new Point(currentPoint.x,currentPoint.y+1));
+                    stack.push(new Point(currentPoint.x,currentPoint.y-1));
+
                 }
             }
         }        

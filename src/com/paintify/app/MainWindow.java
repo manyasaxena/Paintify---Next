@@ -206,7 +206,7 @@ public class MainWindow implements ActionListener{
         return instance;
     }
      
-    public static void main(String[] args) {
+    public static void mainFunction(String[] args) {
         /* Use an appropriate Look and Feel */
         try {
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");

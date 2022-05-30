@@ -30,11 +30,14 @@ public class MainWindow implements ActionListener{
     private JFrame mainFrame;
     public static boolean RIGHT_TO_LEFT = false;
     private GamePanel gamePanel = null;
+    ColorPalettePicker cp = null;
+    JPanel toolbar;
+    JPanel fill;
     Timer pulse;
 
     private MainWindow(){
         config=AppConfig.getInstance();
-        pulse=new Timer();
+        pulse=new Timer(); // The "pulse" of the game, used to show hints for a cetain amount of time, ect
     }
 
 
@@ -45,8 +48,7 @@ public class MainWindow implements ActionListener{
         String command = e.getActionCommand();
         if(command.equals("HINT")){
             ColorPuzzle puzzle = (ColorPuzzle)gamePanel.getEditor();
-            puzzle.showHint();
-           
+            puzzle.showHint();           
         }
         else if (command.equals("RELOAD")){
             ColorPuzzle ccEditor = (ColorPuzzle)gamePanel.getEditor();
@@ -55,21 +57,41 @@ public class MainWindow implements ActionListener{
         else if(command.equals("MONSTER")){
             ColorPuzzle monster = (ColorPuzzle)gamePanel.getEditor();
             monster.loadImage("/images/monster.png");
-            JPanel tools = createToolPanel();
+            fill.remove(cp);
+            cp = new ColorPalettePicker(monster.getReferenceImage());
+            fill.add(cp);
+            toolbar.revalidate();
+            toolbar.repaint();
+            // JPanel tools = createToolPanel();
         
         }
         else if(command.equals("MICKEY")){
             ColorPuzzle mickey = (ColorPuzzle)gamePanel.getEditor();
             mickey.loadImage("/images/mickey.png");
+            fill.remove(cp);
+            cp = new ColorPalettePicker(mickey.getReferenceImage());
+            fill.add(cp);
+            toolbar.revalidate();
+            toolbar.repaint();
 
         }
         else if(command.equals("FISH")){
             ColorPuzzle fish = (ColorPuzzle)gamePanel.getEditor();
             fish.loadImage("/images/pond.png");
+            fill.remove(cp);
+            cp = new ColorPalettePicker(fish.getReferenceImage());
+            fill.add(cp);
+            toolbar.revalidate();
+            toolbar.repaint();
         }
         else if(command.equals("AVACADO")){
             ColorPuzzle ava = (ColorPuzzle)gamePanel.getEditor();
             ava.loadImage("/images/avacado.png");
+            fill.remove(cp);
+            cp = new ColorPalettePicker(ava.getReferenceImage());
+            fill.add(cp);
+            toolbar.revalidate();
+            toolbar.repaint();
         }
         else 
         gamePanel.setController(e.getActionCommand()); 
@@ -142,10 +164,10 @@ public class MainWindow implements ActionListener{
     }
 
     private JPanel createToolPanel() {
-        JPanel toolbar = new JPanel();
+        toolbar = new JPanel();
         toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.PAGE_AXIS));
 
-            JPanel fill =  new JPanel();
+            fill =  new JPanel();
 
             fill.setBorder(BorderFactory.createEtchedBorder());
             fill.setLayout(new BoxLayout(fill,BoxLayout.Y_AXIS));
@@ -154,7 +176,7 @@ public class MainWindow implements ActionListener{
                 ColorPuzzle cceditor = (ColorPuzzle) editor;
 
 
-                ColorPalettePicker cp=new ColorPalettePicker(cceditor.getReferenceImage());
+                cp=new ColorPalettePicker(cceditor.getReferenceImage());
                 fill.add(cp);
 
         toolbar.add(fill);
@@ -188,26 +210,26 @@ public class MainWindow implements ActionListener{
     }
 
     private JPanel createControlPanel() {
-        JPanel controlPanel =new JPanel();
-        JPanel chooser = new JPanel();
+        JPanel controlPanel =new JPanel(); // for fill, hints,
+        JPanel chooser = new JPanel(); //for choosing an image
         chooser.setLayout(new FlowLayout(FlowLayout.RIGHT));
         controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         //  Add Logo
         controlPanel.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
 
-        // Add a bunch of Drawing Operations you can perform
+        // Add a bunch of images you can color
         chooser.add(createImageButton("MONSTER", "/images/buttons/icons8-cute-monster-50.png"));
         chooser.add(createImageButton("MICKEY", "/images/buttons/icons8-mickey-50.png"));
         chooser.add(createImageButton("FISH", "/images/buttons/icons8-fish-50.png"));
         chooser.add(createImageButton("AVACADO", "/images/buttons/icons8-avocado-50.png"));
-
+    // Adding buttons like fill and draw
         controlPanel.add(createImageButton("FILL","/images/buttons/icons8-fill-color-50.png"));
         controlPanel.add(createImageButton("BRUSH","/images/buttons/icons8-paint-brush-50.png"));
         controlPanel.add(createImageButton( "ERASER", "/images/buttons/icons8-erase-50.png"));
         controlPanel.add(createImageButton( "HINT", "/images/buttons/icons8-one-shot-50.png"));
         controlPanel.add(createImageButton( "RELOAD", "/images/buttons/icons8-refresh-50.png"));
         controlPanel.add(chooser);
-        // Adding the Top Drawing Modes to the Main Frame Panel 
+        // Adding the Top Drawing Modes/Images to the Main Frame Panel 
         return controlPanel;
     }
      
@@ -241,6 +263,7 @@ public class MainWindow implements ActionListener{
         /* Use an appropriate Look and Feel */
         try {
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            // random stuff to set it up
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } catch (UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();

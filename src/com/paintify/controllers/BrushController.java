@@ -3,6 +3,7 @@ package com.paintify.controllers;
 import java.awt.event.MouseEvent;
 
 import com.paintify.app.AppConfig;
+import com.paintify.panels.ColorPuzzle;
 import com.paintify.panels.GamePanel;
 
 import java.awt.Color;
@@ -10,8 +11,8 @@ import java.awt.Graphics;
 
 public class BrushController extends DrawingController {
 
-    public BrushController(GamePanel panel){
-        super(panel);
+    public BrushController(ColorPuzzle puzzle){
+        super(puzzle);
     }
 
     private void drawBrush(int x, int y){
@@ -24,7 +25,7 @@ public class BrushController extends DrawingController {
 
         graphics.setColor((Color)config.getConfig(AppConfig.FILL_COLOR));
         graphics.fillOval(x-brushSizeSimple, y-brushSizeSimple, brushSizeSimple*2, brushSizeSimple*2);
-        viewer.repaint();
+        puzzle.repaint();
 
     }
 
@@ -35,9 +36,9 @@ public class BrushController extends DrawingController {
 
     @Override
     public void mouseMoved(MouseEvent e){
-        viewer.setCurrentX(e.getX());
-        viewer.setCurrentY(e.getY());
-        viewer.repaint();
+        puzzle.setCurrentX(e.getX());
+        puzzle.setCurrentY(e.getY());
+        puzzle.repaint();
     }
 
     @Override

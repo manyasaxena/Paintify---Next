@@ -2,6 +2,8 @@ package com.paintify.controllers;
 
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
+import com.paintify.panels.ColorPuzzle;
 import com.paintify.panels.GamePanel;
 
 import java.awt.Color;
@@ -12,8 +14,8 @@ public class RectController extends DrawingController {
     int startX=0, startY=0;
     int endX=0, endY=0;    
 
-    public RectController(GamePanel viewer){
-        super(viewer);
+    public RectController(ColorPuzzle puzzle){
+        super(puzzle);
     }
 
     @Override
@@ -24,20 +26,20 @@ public class RectController extends DrawingController {
 
     @Override
     public void mouseMoved(MouseEvent e){
-        viewer.setCurrentX(e.getX());
-        viewer.setCurrentY(e.getY());
-        viewer.repaint();
+        puzzle.setCurrentX(e.getX());
+        puzzle.setCurrentY(e.getY());
+        puzzle.repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        Graphics graphics = viewer.getEditor().getGraphics();        
+        Graphics graphics = getGraphics();        
         endX=e.getX();
         endY=e.getY();
         if ((startX<endX) &&  (startY<endY)){
             graphics.setColor(Color.RED);
             graphics.drawRect(startX, startY, endX-startX,endY-startY);
-            viewer.repaint();
+            puzzle.repaint();
         }
         System.out.println(e.getX()+" : "+e.getY());
         

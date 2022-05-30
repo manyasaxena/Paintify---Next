@@ -17,8 +17,8 @@ import java.awt.Graphics;
 
 public class FillController extends DrawingController {
 
-    public FillController(GamePanel viewer){
-        super(viewer);
+    public FillController(ColorPuzzle puzzle){
+        super(puzzle);
     }
 
     private boolean isColorSimilar(Color c1, Color c2){
@@ -79,7 +79,7 @@ public class FillController extends DrawingController {
                 }
             }
         }        
-        viewer.repaint();
+        puzzle.repaint();
     }
 
     @Override
@@ -87,20 +87,15 @@ public class FillController extends DrawingController {
         AppConfig config=AppConfig.getInstance();
         Color chosen = (Color)config.getConfig(AppConfig.FILL_COLOR);
 
-        ImageEditor editor = viewer.getEditor();
 
-        if (editor instanceof ColorPuzzle){
-            ColorPuzzle ccEditor = (ColorPuzzle) editor;
-            if (ccEditor.isColorMatch(e.getX(),e.getY(), chosen)){
-                fillColor(e.getX(),e.getY(), chosen);
-                ccEditor.showMessage("NICE , Keep Going!", Color.GREEN, 500);
-            }else
-                ccEditor.showMessage("Wrong Color, Try Again",Color.RED, 2000);
-
-        }else
+        if (puzzle.isColorMatch(e.getX(),e.getY(), chosen)){
             fillColor(e.getX(),e.getY(), chosen);
+            puzzle.showMessage("NICE , Keep Going!", Color.GREEN, 500);
+        }else
+        puzzle.showMessage("Wrong Color, Try Again",Color.RED, 2000);
 
-        viewer.repaint();
+
+        puzzle.repaint();
     }
 }
 

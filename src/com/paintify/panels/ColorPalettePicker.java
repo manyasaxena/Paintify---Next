@@ -23,9 +23,9 @@ public class ColorPalettePicker extends JPanel{
     ColorPalettePicker(){
         super();
     }
-     
 
-    private void createPalette(BufferedImage image){
+    public void createPalette(BufferedImage image){
+        removeAll();
         palette = new HashMap<Color,Integer>();
         for(int x = 0; x< image.getWidth(); x ++){
            for(int y = 0; y < image.getHeight(); y++){
@@ -67,18 +67,19 @@ public class ColorPalettePicker extends JPanel{
            });
 
            add(btn);
+           revalidate();           
+           repaint();
        }
 
        System.out.println("Pallette is : " + palette.size());
     }
+     
 
     public ColorPalettePicker(BufferedImage image){
         setPreferredSize(new Dimension(200,200));        
         createPalette(image);
         setLayout(new FlowLayout());
         setBorder(BorderFactory.createEtchedBorder());
-
-
 
         // createBetterPalette(image);
     }

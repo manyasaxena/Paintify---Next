@@ -1,6 +1,7 @@
 package com.paintify.app;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputListener;
@@ -29,72 +30,37 @@ public class MainWindow implements ActionListener{
     private static MainWindow instance=null;
     private JFrame mainFrame;
     public static boolean RIGHT_TO_LEFT = false;
-    private GamePanel gamePanel = null;
-    ColorPalettePicker cp = null;
-    JPanel toolbar;
-    JPanel fill;
-    Timer pulse;
+
+    private ColorPuzzle puzzle = null;
 
     private MainWindow(){
         config=AppConfig.getInstance();
-        pulse=new Timer(); // The "pulse" of the game, used to show hints for a cetain amount of time, ect
     }
-
-
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if(command.equals("HINT")){
-            ColorPuzzle puzzle = (ColorPuzzle)gamePanel.getEditor();
             puzzle.showHint();           
         }
         else if (command.equals("RELOAD")){
-            ColorPuzzle ccEditor = (ColorPuzzle)gamePanel.getEditor();
-            ccEditor.reload();
+            puzzle.reload();
         }
         else if(command.equals("MONSTER")){
-            ColorPuzzle monster = (ColorPuzzle)gamePanel.getEditor();
-            monster.loadImage("/images/monster.png");
-            fill.remove(cp);
-            cp = new ColorPalettePicker(monster.getReferenceImage());
-            fill.add(cp);
-            toolbar.revalidate();
-            toolbar.repaint();
-            // JPanel tools = createToolPanel();
-        
+            puzzle.loadImage("/images/monster.png");
         }
         else if(command.equals("MICKEY")){
-            ColorPuzzle mickey = (ColorPuzzle)gamePanel.getEditor();
-            mickey.loadImage("/images/mickey.png");
-            fill.remove(cp);
-            cp = new ColorPalettePicker(mickey.getReferenceImage());
-            fill.add(cp);
-            toolbar.revalidate();
-            toolbar.repaint();
-
+            puzzle.loadImage("/images/mickey.png");
         }
         else if(command.equals("FISH")){
-            ColorPuzzle fish = (ColorPuzzle)gamePanel.getEditor();
-            fish.loadImage("/images/pond.png");
-            fill.remove(cp);
-            cp = new ColorPalettePicker(fish.getReferenceImage());
-            fill.add(cp);
-            toolbar.revalidate();
-            toolbar.repaint();
+            puzzle.loadImage("/images/pond.png");
         }
         else if(command.equals("AVACADO")){
-            ColorPuzzle ava = (ColorPuzzle)gamePanel.getEditor();
-            ava.loadImage("/images/avacado.png");
-            fill.remove(cp);
-            cp = new ColorPalettePicker(ava.getReferenceImage());
-            fill.add(cp);
-            toolbar.revalidate();
-            toolbar.repaint();
+            puzzle.loadImage("/images/avacado.png");            
         }
-        else 
-        gamePanel.setController(e.getActionCommand()); 
+        else
+            puzzle.setController(e.getActionCommand());
                
     }    
 
@@ -132,8 +98,7 @@ public class MainWindow implements ActionListener{
 
         JPanel controlPanel = createControlPanel();
         mainWindowPane.add(controlPanel, BorderLayout.PAGE_START);
-
-        gamePanel=createEditorPanel();
+        GamePanel gamePanel=createEditorPanel();
 
         mainWindowPane.add(gamePanel, BorderLayout.CENTER);
         
@@ -147,36 +112,35 @@ public class MainWindow implements ActionListener{
         mainWindowPane.add(progress, BorderLayout.PAGE_END);
         // No 4
          
-        JButton button  = new JButton("Canvas Tools");
+        JButton button  = new JButton(".");
+
         mainWindowPane.add(button, BorderLayout.LINE_END);
         // No 5
     }
 
     private GamePanel createEditorPanel() {
         GamePanel panel = new GamePanel();
-        panel.addBrushController("RECT", new RectController(panel));
-        panel.addBrushController("FILL", new FillController(panel));
-        panel.addBrushController("ERASER", new EraserController(panel));        
-        panel.addBrushController("BRUSH", new BrushController(panel));        
+        puzzle = (ColorPuzzle) panel.getEditor();
+        puzzle.addBrushController("RECT", new RectController(puzzle));
+        puzzle.addBrushController("FILL", new FillController(puzzle));
+        puzzle.addBrushController("ERASER", new EraserController(puzzle));        
+        puzzle.addBrushController("BRUSH", new BrushController(puzzle));        
 
-        panel.setController("FILL");
+        puzzle.setController("FILL");
         return panel;
     }
 
     private JPanel createToolPanel() {
-        toolbar = new JPanel();
+        JPanel toolbar = new JPanel();
         toolbar.setLayout(new BoxLayout(toolbar, BoxLayout.PAGE_AXIS));
 
-            fill =  new JPanel();
+            JPanel fill =  new JPanel();
 
             fill.setBorder(BorderFactory.createEtchedBorder());
             fill.setLayout(new BoxLayout(fill,BoxLayout.Y_AXIS));
-            ImageEditor editor = gamePanel.getEditor();
 
-                ColorPuzzle cceditor = (ColorPuzzle) editor;
-
-
-                cp=new ColorPalettePicker(cceditor.getReferenceImage());
+                ColorPalettePicker cp=new ColorPalettePicker(puzzle.getReferenceImage());
+                puzzle.setColorPalettePicker(cp);
                 fill.add(cp);
 
         toolbar.add(fill);
@@ -213,6 +177,7 @@ public class MainWindow implements ActionListener{
         JPanel controlPanel =new JPanel(); // for fill, hints,
         JPanel chooser = new JPanel(); //for choosing an image
         chooser.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        chooser.setBorder(BorderFactory.createEtchedBorder());
         controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         //  Add Logo
         controlPanel.add(new JLabel(new ImageIcon(MainWindow.class.getResource("/images/logo.png"))), JLabel.LEFT_ALIGNMENT);
@@ -228,6 +193,7 @@ public class MainWindow implements ActionListener{
         controlPanel.add(createImageButton( "ERASER", "/images/buttons/icons8-erase-50.png"));
         controlPanel.add(createImageButton( "HINT", "/images/buttons/icons8-one-shot-50.png"));
         controlPanel.add(createImageButton( "RELOAD", "/images/buttons/icons8-refresh-50.png"));
+        controlPanel.add(new JSeparator());
         controlPanel.add(chooser);
         // Adding the Top Drawing Modes/Images to the Main Frame Panel 
         return controlPanel;

@@ -11,8 +11,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.*;
 import java.io.IOException;
+import java.util.HashMap;
+
+import com.paintify.controllers.DrawingController;
+
 
 public class ColorPuzzle extends ImageEditor implements ActionListener {
+    DrawingController currentController=null;
+    HashMap<String,DrawingController> allControllers=new HashMap<String,DrawingController>();
+
     private BufferedImage imageReference;
     private int hintPercentage = 100;
     Timer animation = new Timer(0, this);
@@ -23,8 +30,9 @@ public class ColorPuzzle extends ImageEditor implements ActionListener {
     private int initialMatch=0;
     private Color messageColor;
 
+    private ColorPalettePicker palettePicker=null;
+
     ColorPuzzle(){
-        showHint();
         addMouseMotionListener(this);
         showMessage="";
         messageColor = Color.BLACK;
@@ -40,6 +48,33 @@ public class ColorPuzzle extends ImageEditor implements ActionListener {
 
     }
 
+    public void addBrushController(String key, DrawingController controller){
+        allControllers.put(key, controller);
+
+        setController(key);
+    }
+
+    public void setController(String key){
+        if (currentController!=null){
+            removeMouseListener(currentController);
+            removeMouseMotionListener(currentController);
+        }
+        currentController=allControllers.get(key);
+        addMouseMotionListener(currentController);
+        addMouseListener(currentController);
+    }
+
+    // public void setCurrentX(int x){
+    //     editor.setCurrentX(x);
+    // }
+
+    // public void setCurrentY(int y){
+    //     editor.setCurrentY(y);
+    // }    
+
+    public void setColorPalettePicker(ColorPalettePicker picker){
+        this.palettePicker = picker;
+    }
 
     public void setInitialMatch(){
         initialMatch=0;
@@ -90,7 +125,6 @@ public class ColorPuzzle extends ImageEditor implements ActionListener {
     }
 
 
-
     public void loadImage(String str){
         super.loadImage(str);
         int indexExtn = str.indexOf(".png");
@@ -101,9 +135,12 @@ public class ColorPuzzle extends ImageEditor implements ActionListener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }  
+        if (this.palettePicker!=null)
+            this.palettePicker.createPalette(imageReference);
 
-        ColorPalettePicker cp=new ColorPalettePicker(imageReference);
         setInitialMatch();
+        showHint();
+
     }
 
     public void paintComponent(Graphics g)

@@ -5,21 +5,21 @@ import java.awt.Graphics;
 
 import javax.swing.event.MouseInputAdapter;
 
-import com.paintify.panels.GamePanel;
+import com.paintify.panels.ColorPuzzle;
 
 public abstract class DrawingController extends MouseInputAdapter{
-    GamePanel viewer;
+    ColorPuzzle puzzle;
 
-    protected DrawingController(GamePanel viewer){
-        this.viewer=viewer;
+    protected DrawingController(ColorPuzzle puzzle){
+        this.puzzle=puzzle;
     }
 
     protected Graphics getGraphics(){
-        return viewer.getEditor().getImage().getGraphics();
+        return puzzle.getImage().getGraphics();
     }
 
     protected BufferedImage getImage(){
-        return viewer.getEditor().getImage();
+        return puzzle.getImage();
     }
 
 }

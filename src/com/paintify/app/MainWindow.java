@@ -16,13 +16,13 @@ import com.paintify.panels.ColorPuzzle;
 import com.paintify.panels.ColorPalettePicker;
 import com.paintify.panels.ImageEditor;
 import com.paintify.panels.ProgressPanel;
-import com.paintify.panels.GamePanel;
 
 import java.awt.event.*;
 import java.util.Timer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Insets;
  
 public class MainWindow implements ActionListener{
@@ -98,9 +98,8 @@ public class MainWindow implements ActionListener{
 
         JPanel controlPanel = createControlPanel();
         mainWindowPane.add(controlPanel, BorderLayout.PAGE_START);
-        GamePanel gamePanel=createEditorPanel();
-
-        mainWindowPane.add(gamePanel, BorderLayout.CENTER);
+        
+        mainWindowPane.add(createEditorPanel(), BorderLayout.CENTER);
         
         // No 2 ////////////////
         JPanel toolbar = createToolPanel();
@@ -108,7 +107,7 @@ public class MainWindow implements ActionListener{
          
         // JButton button = new JButton("Footer");
         // mainWindowPane.add(button, BorderLayout.PAGE_END);
-        ProgressPanel progress = new ProgressPanel((ColorPuzzle)(gamePanel.getEditor()));
+        ProgressPanel progress = new ProgressPanel(puzzle);
         mainWindowPane.add(progress, BorderLayout.PAGE_END);
         // No 4
          
@@ -118,16 +117,21 @@ public class MainWindow implements ActionListener{
         // No 5
     }
 
-    private GamePanel createEditorPanel() {
-        GamePanel panel = new GamePanel();
-        puzzle = (ColorPuzzle) panel.getEditor();
+    private JScrollPane createEditorPanel() {
+
+        JScrollPane gamePanel = new JScrollPane();
+        gamePanel.setPreferredSize(new Dimension(1024, 768));
+        puzzle = new ColorPuzzle();
+        puzzle.loadImage("/images/pond.png");
+        gamePanel.setViewportView(puzzle);
+
         puzzle.addBrushController("RECT", new RectController(puzzle));
         puzzle.addBrushController("FILL", new FillController(puzzle));
         puzzle.addBrushController("ERASER", new EraserController(puzzle));        
         puzzle.addBrushController("BRUSH", new BrushController(puzzle));        
 
         puzzle.setController("FILL");
-        return panel;
+        return gamePanel;
     }
 
     private JPanel createToolPanel() {

@@ -1,10 +1,6 @@
 package com.paintify.controllers;
-
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-
 import com.paintify.panels.ColorPuzzle;
-import com.paintify.panels.GamePanel;
 
 import java.awt.Color;
 import java.awt.Graphics;

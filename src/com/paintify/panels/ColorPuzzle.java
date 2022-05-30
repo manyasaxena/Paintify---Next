@@ -32,7 +32,7 @@ public class ColorPuzzle extends ImageEditor implements ActionListener {
 
     private ColorPalettePicker palettePicker=null;
 
-    ColorPuzzle(){
+    public ColorPuzzle(){
         addMouseMotionListener(this);
         showMessage="";
         messageColor = Color.BLACK;

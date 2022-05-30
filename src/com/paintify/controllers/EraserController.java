@@ -4,7 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import com.paintify.panels.ColorPuzzle;
-import com.paintify.panels.GamePanel;
 
 import java.awt.Graphics;
 import java.awt.Color;

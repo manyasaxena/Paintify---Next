@@ -6,7 +6,6 @@ import java.util.Stack;
 import com.paintify.app.AppConfig;
 import com.paintify.panels.ColorPuzzle;
 import com.paintify.panels.ImageEditor;
-import com.paintify.panels.GamePanel;
 
 import java.awt.image.BufferedImage;
 
